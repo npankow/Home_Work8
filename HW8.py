@@ -38,7 +38,20 @@ def get_info():
             print(err)
             continue
 
-    last_name = "Иванов"
+    is_valid_last_name = False
+    while not is_valid_last_name:
+        try:
+            last_name = input("Введите фамилию: ")
+            if len(last_name) < 2:
+                raise NameError("Не валидная фамилия")
+            else:
+                is_valid_last_name = True
+        except NameError as err:
+            print(err)
+            continue
+
+
+    # last_name = "Иванов"
 
     is_valid_phone = False
     while not is_valid_phone:
@@ -75,7 +88,7 @@ def write_file(file_name, lst):
     res = read_file(file_name)
     for el in res:
         if el["Телефон"] == str(lst[2]):
-            print("Такой телофон уже есть")
+            print("Такой телефон уже есть")
             return
 
     obj = {"Имя": lst[0], "Фамилия": lst[1], "Телефон": lst[2]}
@@ -103,6 +116,23 @@ def main():
                 print("Файл отсутствует. Создайте его")
                 continue
             print(*read_file(file_name))
+        elif command == 'add':
+                file_name2 = input("Введите название файла: ")
+                create_file(file_name2)
+        elif command == 'c':
+            import shutil
+            with open("phone.csv", 'r+') as fpr, open("file2.csv" , 'w+') as fpw:
+                shutil.copyfileobj(fpr, fpw)
 
+
+
+            # source_file = input("Введите название файла из которого будем копировать: ")
+            # destination_file = input("Введите название файла в который будем копировать: ")
+            # line_num = int(input("Введите номер строчки для копирования: "))
+            # copy_lines("phone.csv", "file2.csv", 2 )
+            # def copy_lines(source_file, destination_file, line):
+            #         with open(source_file, 'r', encoding="utf-8") as source:
+            #             with open(destination_file, 'w', encoding="utf-8") as destination:
+                            
 
 main()
