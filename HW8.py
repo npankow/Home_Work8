@@ -98,6 +98,12 @@ def write_file(file_name, lst):
         f_writer.writeheader()
         f_writer.writerows(res)
 
+def copy_lines(source_file, destination_file, num):
+        with open(destination_file, "a", encoding='utf-8', newline='') as data:
+            f_writer = DictWriter(data, fieldnames=['Имя', 'Фамилия', 'Телефон'])
+            f_writer.writerow(source_file[num])
+        print('Копирование усепешно завершено')
+
 
 file_name = 'phone.csv'
 
@@ -117,22 +123,17 @@ def main():
                 continue
             print(*read_file(file_name))
         elif command == 'add':
-                file_name2 = input("Введите название файла: ")
-                create_file(file_name2)
-        elif command == 'c':
-            import shutil
-            with open("phone.csv", 'r+') as fpr, open("file2.csv" , 'w+') as fpw:
-                shutil.copyfileobj(fpr, fpw)
-
-
-
-            # source_file = input("Введите название файла из которого будем копировать: ")
-            # destination_file = input("Введите название файла в который будем копировать: ")
-            # line_num = int(input("Введите номер строчки для копирования: "))
-            # copy_lines("phone.csv", "file2.csv", 2 )
-            # def copy_lines(source_file, destination_file, line):
-            #         with open(source_file, 'r', encoding="utf-8") as source:
-            #             with open(destination_file, 'w', encoding="utf-8") as destination:
-                            
+                file_name2 = input("Введи название файла: ")
+                if not exists(file_name2):
+                    create_file(file_name2)
+        elif command == 'c':  
+            file = input("Введи имя копируемого файла: ")
+            source_file = read_file(file)
+            print(source_file)
+            num = int(input("Введи номер строки: "))
+            destination_file = input("Введи имя файла в который будет осуществляться копирование: ")
+            if not exists(destination_file):
+                create_file(destination_file)
+            copy_lines(source_file, destination_file, num)
 
 main()
